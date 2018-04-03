@@ -46,11 +46,12 @@ window.renderStatistics = function (ctx, names, times) {
     height[i] = (Math.round(times[i]) * GISTOGRAM_HEIGHT / maxTime);
 
     if (names[i] === 'Вы') {
-      ctx.globalAlpha = 1;
       ctx.fillStyle = 'rgba(255, 0, 0, 1)';
-    } else {
-      ctx.globalAlpha = Math.random();
-      ctx.fillStyle = 'blue';
+    }
+
+    else {
+      ctx.fillStyle = 'rgba(0, 0, 255, ' + Math.random() + ')';
+
     }
 
     ctx.fillText(Math.round(times[i]), TEXT_PADDING_X + i * GAP, TIMES_TOP_PADDING - height[i]);
