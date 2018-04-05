@@ -20,16 +20,23 @@ var randNumb = function (array) {
   return randElement;
 };
 
+var CreateWizard = function (name, coatColor, eyesColor) {
+  this.name = name;
+  this.coatColor = coatColor;
+  this.eyesColor = eyesColor;
+
+};
+
 for (var i = 0; i < 4; i++) {
-  wizards[i] = {
-    name: NAMES[randNumb(NAMES)] + ' ' + SURNAMES[randNumb(SURNAMES)],
-    coatColor: COAT_COLOR[randNumb(COAT_COLOR)],
-    eyesColor: EYES_COLOR[randNumb(EYES_COLOR)]
-  };
   if (randNumb(POSITIONS) === 0) {
-    wizards[i].name = SURNAMES[randNumb(SURNAMES)] + ' ' + NAMES[randNumb(NAMES)];
+    wizards[i] = new CreateWizard(SURNAMES[randNumb(SURNAMES)] + ' ' + NAMES[randNumb(NAMES)], COAT_COLOR[randNumb(COAT_COLOR)],
+        COAT_COLOR[randNumb(COAT_COLOR)], EYES_COLOR[randNumb(EYES_COLOR)]);
+  } else {
+    wizards[i] = new CreateWizard(NAMES[randNumb(NAMES)] + ' ' + SURNAMES[randNumb(SURNAMES)], COAT_COLOR[randNumb(COAT_COLOR)],
+        COAT_COLOR[randNumb(COAT_COLOR)], EYES_COLOR[randNumb(EYES_COLOR)]);
   }
 }
+
 
 var SimilarWizardTemplate = document.querySelector('#similar-wizard-template').content;
 var SetupSimilar = document.querySelector('.setup-similar');
