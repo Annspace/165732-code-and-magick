@@ -1,7 +1,7 @@
 'use strict';
 
-var modalUser = document.querySelector('.setup');
-modalUser.classList.remove('hidden');
+// var modalUser = document.querySelector('.setup');
+// modalUser.classList.remove('hidden');
 
 var NAMES = ['Иван', 'Хуан Себастьян', 'Мария', 'Кристоф', 'Мария', 'Виктор', 'Юлия', 'Люпита', 'Вашингтон'];
 
@@ -56,4 +56,52 @@ for (i = 0; i < wizards.length; i++) {
   fragment.appendChild(renderWizard(wizards[i]));
 }
 document.querySelector('.setup-similar-list').appendChild(fragment);
+
+
+var setupOpen = document.querySelector('.setup-open');
+var setupClose = document.querySelector('.setup-close');
+var modalUser = document.querySelector('.setup');
+var userName = document.querySelector('.setup-user-name');
+
+var closePopup = function () {
+  modalUser.classList.add('hidden');
+};
+
+var openPopup = function () {
+  modalUser.classList.remove('hidden');
+};
+
+
+setupOpen.addEventListener('click', function () {
+  openPopup();
+});
+
+setupClose.addEventListener('click', function () {
+  closePopup();
+});
+
+setupOpen.addEventListener('keydown', function (e) {
+  if (e.keyCode === 13) {
+    openPopup();
+  }
+});
+
+// проверяем фокус
+var focusInput = 0;
+userName.addEventListener('focus', function () {
+  focusInput = 1;
+});
+
+// если фокус снят
+userName.addEventListener('blur', function () {
+  focusInput = 0;
+});
+
+
+document.addEventListener('keydown', function (e) {
+  if (e.keyCode === 27 && focusInput === 0) {
+    closePopup();
+  }
+});
+
 
