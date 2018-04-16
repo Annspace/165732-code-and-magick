@@ -125,7 +125,7 @@ var inputEyeColor = document.querySelector('[name="eyes-color"]');
 var flag = 0;
 eyesBlock.addEventListener('click', function () {
   // пока флаг не дойдёт до конца массива colors
-  // если дойдет, то обнуляется
+  // если дойдет, то обнуляется и всё заново
   if (flag < WIZARD_EYES_COLORS.length - 1) {
     flag++;
   } else {
