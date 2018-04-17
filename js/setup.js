@@ -67,70 +67,65 @@ for (i = 0; i < wizards.length; i++) {
 }
 document.querySelector('.setup-similar-list').appendChild(fragment);
 
-
+// Нажатие на элемент .setup-open удаляет класс hidden
+// у блока setup. Нажатие на элемент .setup-close, расположенный
+// внутри блока setup возвращает ему класс hidden.
+var setup = document.querySelector('.setup');
 var setupOpen = document.querySelector('.setup-open');
-var setupClose = document.querySelector('.setup-close');
-var modalUser = document.querySelector('.setup');
-var userName = modalUser.querySelector('.setup-user-name');
-var eyesBlock = modalUser.querySelector('.setup-wizard .wizard-eyes');
-var setupFireBall = modalUser.querySelector('.setup-fireball-wrap');
+var setupClose = setup.querySelector('.setup-close');
 
-
-var closePopup = function () {
-  modalUser.classList.add('hidden');
+var onPopupEscPress = function (evt) {
+  if (evt.keyCode === 27) {
+    closePopup();
+  }
 };
 
 var openPopup = function () {
-  modalUser.classList.remove('hidden');
+  setup.classList.remove('hidden');
+  document.addEventListener('keydown', onPopupEscPress);
 };
 
+var closePopup = function () {
+  setup.classList.add('hidden');
+  document.removeEventListener('keydown', onPopupEscPress);
+};
 
-setupOpen.addEventListener('click', openPopup);
+setupOpen.addEventListener('click', function () {
+  openPopup();
+});
 
-setupClose.addEventListener('click', closePopup);
-
-var open = function (button) {
-  if (button === ENTER_BUTTON) {
+setupOpen.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === 13) {
     openPopup();
   }
-};
+});
 
-var closeEnter = function (button) {
-  if (button === ENTER_BUTTON) {
+setupClose.addEventListener('click', function () {
+  closePopup();
+});
+
+
+var form = document.querySelector('.setup-user-name');
+
+
+setupClose.addEventListener('keydown', function (evt) {
+  if (evt.keyCode === 13) {
     closePopup();
   }
-};
-
-var closeEsc = function (button) {
-  if (button === ESC_BUTTON && focusInput === 0) {
-    closePopup();
-  }
-};
-
-setupOpen.addEventListener('keydown', function (e) {
-  open(e.keyCode);
-});
-
-// проверяем фокус
-var focusInput = 0;
-userName.addEventListener('focus', function () {
-  focusInput = 1;
-});
-
-// если фокус снят
-userName.addEventListener('blur', function () {
-  focusInput = 0;
-});
-
-setupClose.addEventListener('keydown', function (e) {
-  closeEnter(e.keyCode);
-});
-
-document.addEventListener('keydown', function (e) {
-  closeEsc(e.keyCode);
 });
 
 
+form.addEventListener('focus', function () {
+  document.removeEventListener('keydown', onPopupEscPress);
+});
+
+form.addEventListener('blur', function () {
+  document.addEventListener('keydown', onPopupEscPress);
+});
+
+var modalUser = document.querySelector('.setup');
+var eyesBlock = modalUser.querySelector('.setup-wizard .wizard-eyes');
+var setupFireBall = modalUser.querySelector('.setup-fireball-wrap');
 var eyesWizard = document.querySelectorAll('#wizard-eyes rect');
 var inputFireBall = document.querySelector('[name="fireball-color"]');
 var inputEyeColor = document.querySelector('[name="eyes-color"]');
