@@ -67,9 +67,9 @@ document.querySelector('.setup-similar-list').appendChild(fragment);
 var setupOpen = document.querySelector('.setup-open');
 var setupClose = document.querySelector('.setup-close');
 var modalUser = document.querySelector('.setup');
-var userName = document.querySelector('.setup-user-name');
-var eyesBlock = document.querySelector('.setup-wizard .wizard-eyes');
-var setupFireBall = document.querySelector('.setup-fireball-wrap');
+var userName = modalUser.querySelector('.setup-user-name');
+var eyesBlock = modalUser.querySelector('.setup-wizard .wizard-eyes');
+var setupFireBall = modalUser.querySelector('.setup-fireball-wrap');
 
 
 var closePopup = function () {
@@ -81,18 +81,30 @@ var openPopup = function () {
 };
 
 
-setupOpen.addEventListener('click', function () {
-  openPopup();
-});
+setupOpen.addEventListener('click', openPopup);
 
-setupClose.addEventListener('click', function () {
-  closePopup();
-});
+setupClose.addEventListener('click', closePopup);
 
-setupOpen.addEventListener('keydown', function (e) {
-  if (e.keyCode === 13) {
+var open = function (button) {
+  if (button === 13) {
     openPopup();
   }
+};
+
+var closeEnter = function (button) {
+  if (button === 13) {
+    closePopup();
+  }
+};
+
+var closeEsc = function (button) {
+  if (button === 27 && focusInput === 0) {
+    closePopup();
+  }
+};
+
+setupOpen.addEventListener('keydown', function (e) {
+  open(e.keyCode);
 });
 
 // проверяем фокус
@@ -106,17 +118,14 @@ userName.addEventListener('blur', function () {
   focusInput = 0;
 });
 
-document.addEventListener('keydown', function (e) {
-  if (e.keyCode === 27 && focusInput === 0) {
-    closePopup();
-  }
+setupClose.addEventListener('keydown', function (e) {
+  closeEnter(e.keyCode);
 });
 
-setupClose.addEventListener('keydown', function (e) {
-  if (e.keyCode === 13) {
-    closePopup();
-  }
+document.addEventListener('keydown', function (e) {
+  closeEsc(e.keyCode);
 });
+
 
 var eyesWizard = document.querySelectorAll('#wizard-eyes rect');
 var inputFireBall = document.querySelector('[name="fireball-color"]');
@@ -125,7 +134,7 @@ var inputEyeColor = document.querySelector('[name="eyes-color"]');
 var flag = 0;
 eyesBlock.addEventListener('click', function () {
   // пока флаг не дойдёт до конца массива colors
-  // если дойдет, то обнуляется и всё заново
+  // если дойдет, то обнуляется и всё заново (для того, чтобы цвета выбирались по порядку)
   if (flag < WIZARD_EYES_COLORS.length - 1) {
     flag++;
   } else {
