@@ -21,6 +21,10 @@ var WIZARD_FIREBALL_COLORS = ['#ee4830', '#30a8ee', '#5ce6c0', '#e848d5', '#e6e8
 
 var NUMBER_OF_EYES = 2;
 
+var ESC_BUTTON = 27;
+
+var ENTER_BUTTON = 13;
+
 var randNumb = function (array) {
   var randElement = Math.floor(Math.random() * array.length);
   return randElement;
@@ -86,19 +90,19 @@ setupOpen.addEventListener('click', openPopup);
 setupClose.addEventListener('click', closePopup);
 
 var open = function (button) {
-  if (button === 13) {
+  if (button === ENTER_BUTTON) {
     openPopup();
   }
 };
 
 var closeEnter = function (button) {
-  if (button === 13) {
+  if (button === ENTER_BUTTON) {
     closePopup();
   }
 };
 
 var closeEsc = function (button) {
-  if (button === 27 && focusInput === 0) {
+  if (button === ESC_BUTTON && focusInput === 0) {
     closePopup();
   }
 };
@@ -132,28 +136,35 @@ var inputFireBall = document.querySelector('[name="fireball-color"]');
 var inputEyeColor = document.querySelector('[name="eyes-color"]');
 
 var flag = 0;
-eyesBlock.addEventListener('click', function () {
+
+var chooseColors = function (array) {
   // пока флаг не дойдёт до конца массива colors
   // если дойдет, то обнуляется и всё заново (для того, чтобы цвета выбирались по порядку)
-  if (flag < WIZARD_EYES_COLORS.length - 1) {
+  if (flag < array.length - 1) {
     flag++;
   } else {
     flag = 0;
   }
   for (i = 0; i < NUMBER_OF_EYES; i++) {
-    eyesWizard[i].style.fill = WIZARD_EYES_COLORS[flag];
-    inputEyeColor.setAttribute('value', WIZARD_EYES_COLORS[flag]);
+    eyesWizard[i].style.fill = array[flag];
+    inputEyeColor.setAttribute('value', array[flag]);
   }
+};
 
-});
-
-
-setupFireBall.addEventListener('click', function () {
-  if (flag < WIZARD_FIREBALL_COLORS.length - 1) {
+var chooseBalls = function (array) {
+  if (flag < array.length - 1) {
     flag++;
   } else {
     flag = 0;
   }
-  setupFireBall.style.backgroundColor = WIZARD_FIREBALL_COLORS[flag];
-  inputFireBall.setAttribute('value', WIZARD_FIREBALL_COLORS[flag]);
+  setupFireBall.style.backgroundColor = array[flag];
+  inputFireBall.setAttribute('value', array[flag]);
+};
+
+setupFireBall.addEventListener('click', function () {
+  chooseBalls(WIZARD_FIREBALL_COLORS);
+});
+
+eyesBlock.addEventListener('click', function () {
+  chooseColors(WIZARD_EYES_COLORS);
 });
